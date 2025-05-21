@@ -16,7 +16,7 @@ class Parser {
   private:
     Command_Manager command_manager;
 
-    void add_to_root(std::shared_ptr<Parse_Nodes::Root>, std::string &value);
+    bool add_to_root(std::shared_ptr<Parse_Nodes::Root>, std::string &value);
 };
 
 Parser::Parser() {
@@ -38,7 +38,9 @@ std::shared_ptr<Parse_Nodes::Root> Parser::parse_string(std::string input) {
         if ((int)c == '"')
             inside_quotes ^= 1;
         if (c == ' ' and !inside_quotes) {
-            add_to_root(root, buffer);
+            if (add_to_root(root, buffer)) {
+                return nullptr;
+            }
             buffer.clear();
         }
         buffer.push_back(c);
@@ -47,17 +49,17 @@ std::shared_ptr<Parse_Nodes::Root> Parser::parse_string(std::string input) {
     return root;
 }
 
-void Parser::add_to_root(std::shared_ptr<Parse_Nodes::Root> root,
+bool Parser::add_to_root(std::shared_ptr<Parse_Nodes::Root> root,
                          std::string &value) {
     if (value.size() == 0) {
-        return;
+        return false;
     }
 
     if (root->command_id == -1) {
         int id = command_manager.get_id_for(value);
         if (id < 0) {
             std::cerr << "No such command exists\r\n" << std::endl;
-            exit(EXIT_FAILURE);
+            return 1;
         }
 
         root->command_id = id;
@@ -68,4 +70,5 @@ void Parser::add_to_root(std::shared_ptr<Parse_Nodes::Root> root,
             root->input.push_back(Parse_Nodes::Value{.value = value});
         }
     }
+    return 0;
 }

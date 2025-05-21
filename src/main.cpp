@@ -28,6 +28,11 @@ int main(int argc, char *argv[]) {
         print_query();
         std::string value = read_query();
         std::shared_ptr<Parse_Nodes::Root> root = parser.parse_string(value);
+
+        if (root == nullptr) {
+            continue;
+        }
+
         int return_value = executer.execute_parsed(root);
 
         if (return_value != 0) {
