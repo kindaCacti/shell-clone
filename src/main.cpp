@@ -12,7 +12,7 @@ void print_query() {
     std::cout << std::filesystem::current_path().generic_string() << "$ ";
 }
 
-std::string &read_query() {
+std::string read_query() {
     std::string input;
     std::getline(std::cin, input);
     return input;
