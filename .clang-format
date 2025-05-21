@@ -1,0 +1,6 @@
+TabWidth: 4
+IndentWidth: 4
+BraceWrapping: {}
+AllowShortLoopsOnASingleLine: true
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
