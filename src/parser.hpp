@@ -20,9 +20,8 @@ class Parser {
 };
 
 Parser::Parser() {
-    for (std::string &command : commands) {
-        command_manager.add_command(command);
-    }
+    command_manager = Command_Manager();
+    command_manager.load_commands();
 }
 
 std::shared_ptr<Parse_Nodes::Root> Parser::parse_string(std::string input) {
@@ -35,8 +34,10 @@ std::shared_ptr<Parse_Nodes::Root> Parser::parse_string(std::string input) {
     bool is_command = true;
     input.push_back(' ');
     for (auto c : input) {
-        if ((int)c == '"')
+        if ((int)c == '"'){
             inside_quotes ^= 1;
+            continue;
+        }
         if (c == ' ' and !inside_quotes) {
             if (add_to_root(root, buffer)) {
                 return nullptr;
