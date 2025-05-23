@@ -22,7 +22,9 @@ int Executer::execute_parsed(std::shared_ptr<Parse_Nodes::Root> root) {
 
 int execute_builtin(std::shared_ptr<Parse_Nodes::Root> root){
     switch(root->command_id){
-        case 
+        case CD_COMMAND:
+            parse_cd_string(root->value)
+
     }
     std::cerr<<"No such command exists \r\n";
     return 1;
